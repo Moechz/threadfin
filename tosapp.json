@@ -73,7 +73,7 @@
   "github_repo": "threadfin",
   "upstream_version": "1.2.37",
   "release_tag_prefix": "v",
-  "version": "1.2.37-1",
+  "version": "1.2.37-2",
   "help": "https://github.com/Moechz/threadfin/issues",
   "official": "https://github.com/Threadfin/Threadfin",
   "license": "MIT",
