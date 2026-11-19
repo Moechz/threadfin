@@ -17,3 +17,6 @@ HANDOFF.md
 # --- local packaging helpers (never published) ---
 /.toolkit/
 /.gitconfig-local
+
+# --- official test tool (kept locally, not part of the package sources) ---
+/TOSAppSelfTestingTool

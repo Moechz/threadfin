@@ -20,52 +20,13 @@
   "auth": "Threadfin",
   "upstream_url": "https://github.com/Threadfin/Threadfin",
   "upstream_license": "MIT",
-  "descript": "Threadfin is an IPTV proxy: it merges M3U playlists and XMLTV guide data and exposes them to Plex, Emby or Jellyfin as a single tuner. This package runs the official Docker Hub image as a non-root container and keeps its configuration in the application data folder.",
-  "release_note": "1. First release.",
-  "important": "Open http://<NAS-IP>:port/web/ for the web UI; configure your IPTV provider and XMLTV source there. Data lives in /Volume1/DockerAppData/threadfindocker/ and survives restarts and updates. The container runs as uid 1000, so mounted folders must be readable by that user. Needs DockerEngine; configure a registry mirror if Docker Hub is unreachable. Back up the application data folder before uninstalling with data removal. Plain HTTP on the LAN.",
-  "probe": {
-    "user_in_image": "nobody",
-    "entrypoint": null,
-    "cmd": [
-      "sh",
-      "start.sh",
-      "prd"
-    ],
-    "exposed_ports": [
-      8080
-    ],
-    "declared_volumes": [],
-    "image_healthcheck": [
-      "CMD-SHELL",
-      "python healthcheck.py"
-    ],
-    "digest": "daya0576/beaverhabits@sha256:6cd7e464207369785c88cfd59f99c6cc44ec57f3a8d90c3439908da42271d69f",
-    "architecture": "x86_64",
-    "platforms": [],
-    "http_client_in_image": "",
-    "trial_run": {
-      "ok": false,
-      "http_code": "",
-      "state": "exited",
-      "paths": [],
-      "host_port": 18000,
-      "log_tail": "21, in connect\n    await_only(connection),\n    ~~~~~~~~~~^^^^^^^^^^^^\n  File \"/opt/pysetup/.venv/lib/python3.14/site-packages/sqlalchemy/util/_concurrency_py3k.py\", line 132, in await_only\n    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501\n           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^\n  File \"/opt/pysetup/.venv/lib/python3.14/site-packages/sqlalchemy/util/_concurrency_py3k.py\", line 196, in greenlet_spawn\n    value = await result\n            ^^^^^^^^^^^^\n  File \"/opt/pysetup/.venv/lib/python3.14/site-packages/aiosqlite/core.py\", line 168, in _connect\n    self._connection = await future\n                       ^^^^^^^^^^^^\n  File \"/opt/pysetup/.venv/lib/python3.14/site-packages/aiosqlite/core.py\", line 63, in _connection_worker_thread\n    result = function()\n  File \"/opt/pysetup/.venv/lib/python3.14/site-packages/aiosqlite/core.py\", line 466, in connector\n    return sqlite3.connect(loc, **kwargs)\n           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^\nsqlalchemy.exc.OperationalError: (sqlite3.OperationalError) unable to open database file\n(Background on this error at: https://sqlalche.me/e/20/e3q8)\n\n[2026-11-10 04:59:36 +0000] [11] [ERROR] Application startup failed. Exiting.\n[2026-11-10 04:59:36 +0000] [11] [INFO] Worker exiting (pid: 11)\n[2026-11-10 04:59:36 +0000] [9] [ERROR] Worker (pid:11) exited with code 3.\n[2026-11-10 04:59:36 +0000] [9] [ERROR] Shutting down: Master\n[2026-11-10 04:59:36 +0000] [9] [ERROR] Reason: Worker failed to boot.",
-      "files_in_mounts": ""
-    },
-    "docker_hub": {},
-    "github": {
-      "owner": "daya0576",
-      "repo": "beaverhabits",
-      "description": "A self-hosted habit tracking app without \"Goals\"",
-      "license": "BSD-3-Clause",
-      "homepage": "https://beaverhabits.com/demo"
-    }
-  },
+  "descript": "Threadfin is an IPTV proxy: it merges the M3U playlists and XMLTV guide data you configure and exposes them to Plex, Emby, Jellyfin or an HDHomeRun client as a single tuner on your LAN. This package runs the official Docker Hub image as a non-root container and keeps its configuration in the application data folder on the NAS.",
+  "release_note": "1.2.37-4: added the privacy policy (linked from Help) and a licence notice; corrected the Chinese descriptions, which described another application; fixed the web UI address in the text; added the webui.bz2 front-end bundle required by the review (F22/F07); documented the IPTV/EPG, logo, GitHub and Docker Hub endpoints. Rectified per review comments.",
+  "important": "Open http://<NAS-IP>:8066/web/: the first visit creates the administrator, then add your IPTV and XMLTV sources. Data (settings, mappings, logo cache) lives in /Volume1/DockerAppData/threadfindocker/ and survives restarts. Runs as uid 1000. Needs DockerEngine; add a mirror if Docker Hub is unreachable. LAN players (Plex/Emby/Jellyfin/HDHomeRun) connect to it; it fetches your IPTV/EPG URLs, loads Bootstrap/Font Awesome from Cloudflare CDNs and checks GitHub for updates. Privacy: see Help. Plain HTTP LAN.",
   "healthcheck": [
     "CMD-SHELL",
     "wget -q -O /dev/null http://127.0.0.1:34400/ || exit 1"
   ],
-  "entrypoint_file": "src/entrypoint.sh",
   "platform": "x86_64",
   "user": "1000:1000",
   "publisher": "Moechz",
@@ -73,8 +34,8 @@
   "github_repo": "threadfin",
   "upstream_version": "1.2.37",
   "release_tag_prefix": "v",
-  "version": "1.2.37-3",
-  "help": "https://github.com/Moechz/threadfin/issues",
+  "version": "1.2.37-4",
+  "help": "https://github.com/Moechz/threadfin/blob/main/PRIVACY.md",
   "official": "https://github.com/Threadfin/Threadfin",
   "license": "MIT",
   "docker_socket": false,
@@ -85,12 +46,14 @@
   ],
   "translations": {
     "zh-cn": {
-      "descript": "习惯打卡与连续天数统计，界面简洁。",
-      "important": "首次使用请打开网页完成初始化。数据保存在 DockerAppData/beaverhabitsdocker，重启和升级不会丢失。容器以 uid 1000 运行，挂载目录需对该用户可读。需要 DockerEngine；Docker Hub 不可达时先配置镜像加速。卸载并删除数据前请备份。局域网内为 HTTP。"
+      "descript": "Threadfin 是一个 IPTV 代理：把您配置的 M3U 播放列表和 XMLTV 节目单合并，汇聚成局域网内的一个调谐器，供 Plex、Emby、Jellyfin 或 HDHomeRun 客户端使用。本应用以非 root 容器运行 Docker Hub 官方镜像，配置保存在 NAS 的应用数据目录。",
+      "important": "打开 http://<NAS-IP>:8066/web/，首次访问创建管理员，然后在网页里添加 IPTV 提供方和 XMLTV 节目单源。数据（设置、频道映射、台标缓存）保存在 /Volume1/DockerAppData/threadfindocker/，重启和升级不会丢失。容器以 uid 1000 运行。需要 DockerEngine；Docker Hub 不可达时先配置镜像加速。局域网内的 Plex/Emby/Jellyfin/HDHomeRun 客户端会连接本应用；本应用会访问您配置的 IPTV/节目单地址、从 Cloudflare CDN 加载 Bootstrap/Font Awesome，并检查 GitHub 更新。隐私政策见帮助链接。局域网内为 HTTP。",
+      "release_note": "1.2.37-4：新增隐私政策（帮助链接）与许可证声明；修正中文描述（原描述写的是另一个应用）；修正文案里的网页地址；按审核要求补充 webui.bz2 前端包（F22/F07）；披露 IPTV/节目单、台标、GitHub 与 Docker Hub 等第三方端点。按审核意见整改。"
     },
     "zh-hk": {
-      "descript": "习惯打卡与连续天数统计，界面简洁。",
-      "important": "首次使用請開啟網頁完成初始化。資料保存在 DockerAppData/beaverhabitsdocker，重新啟動和升級不會遺失。容器以 uid 1000 運行，掛載目錄需對該使用者可讀。需要 DockerEngine；Docker Hub 不可達時先設定鏡像加速。解除安裝並刪除資料前請備份。區域網路內為 HTTP。"
+      "descript": "Threadfin 是一個 IPTV 代理：把您設定的 M3U 播放清單和 XMLTV 節目表合併，匯聚成區域網路內的一個調諧器，供 Plex、Emby、Jellyfin 或 HDHomeRun 用戶端使用。本應用以非 root 容器執行 Docker Hub 官方映像，設定保存在 NAS 的應用資料目錄。",
+      "important": "開啟 http://<NAS-IP>:8066/web/，首次存取建立管理員，然後在網頁裡加入 IPTV 提供者與 XMLTV 節目表來源。資料（設定、頻道對應、台標快取）保存在 /Volume1/DockerAppData/threadfindocker/，重新啟動和升級不會遺失。容器以 uid 1000 執行。需要 DockerEngine；Docker Hub 不可達時先設定鏡像加速。區域網路內的 Plex/Emby/Jellyfin/HDHomeRun 用戶端會連線本應用；本應用會存取您設定的 IPTV/節目表位址、從 Cloudflare CDN 載入 Bootstrap/Font Awesome，並檢查 GitHub 更新。隱私政策見說明連結。區域網路內為 HTTP。",
+      "release_note": "1.2.37-4：新增隱私政策（說明連結）與授權聲明；修正中文描述（原描述寫的是另一個應用）；修正文案裡的網頁位址；依審核要求補上 webui.bz2 前端包（F22/F07）；揭露 IPTV/節目表、台標、GitHub 與 Docker Hub 等第三方端點。依審核意見整改。"
     }
   },
   "host_port": 8066
